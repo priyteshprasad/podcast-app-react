@@ -31,5 +31,5 @@
     z-index: -1;
 }
 .active{
-    color: var(--white);
+    color: var(--white) !important;
 }

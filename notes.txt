@@ -1,0 +1,18 @@
+error in npm start: run : npm install --save-dev ajv@8
+
+Google Firebase Backend as a Service
+1. Authentication - annonymous is also an option
+2. Database - Collection => documents => data_instance(unique id)
+3. 
+
+Redux & Redux Tool
+State management library, 
+instead of featching the details again and again, maintain state globally
+tool help to make it easy
+
+Reducer: It has a lot of actions and access to state;
+It contains the actions that you can call to change the state
+
+Slice: is a combination of action and state, retrive, change, delete action related to userSlice
+
+React-router-dom: route management

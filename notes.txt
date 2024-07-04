@@ -16,3 +16,6 @@ It contains the actions that you can call to change the state
 Slice: is a combination of action and state, retrive, change, delete action related to userSlice
 
 React-router-dom: route management
+React-Firebase-hooks: allow to get auth state and create private routes
+
+Create custome file input using input.style.display =none and providing a lable

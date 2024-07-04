@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
-import InputComponent from '../../Input';
-import Button from '../../Button';
+import InputComponent from '../../common/Input';
+import Button from '../../common/Button';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth, db} from '../../../firebase';
 import { doc, setDoc } from 'firebase/firestore';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../../../slices/userSlice';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 function SignupForm() {
     const [fullName, setFullName] = useState("");
@@ -15,9 +16,11 @@ function SignupForm() {
     const [confirmPassword, setConfirmPassword] = useState("");
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
 
     const handleSignup = async () => {
         console.log("handling signup")
+        setLoading(true)
         if(password.length > 6 && password === confirmPassword){
             try {
                 // creating user account
@@ -39,13 +42,21 @@ function SignupForm() {
                     email:user.email,
                     uid: user.uid
                 }))
+                toast.success("user has been created")
                 navigate("/profile");
             }catch(err){
                 console.log(err)
             }
         }else{
+            if(password !== confirmPassword){
+                toast.error("Please make sure password matches")
+            }
+            else if(password.length < 6){
+                toast.error("length should be greater than 6")
+            }
             console.log("invalide password")
         }
+        setLoading(false);
     }
   return (
     <>
@@ -77,7 +88,7 @@ function SignupForm() {
                 type="password"
                 required={true}
             />
-            <Button text="Sign Up" onClick={handleSignup}/>
+            <Button text={loading ? "Loading..." : "Sign Up"} onClick={handleSignup} disabled={loading}/>
     </>
   )
 }

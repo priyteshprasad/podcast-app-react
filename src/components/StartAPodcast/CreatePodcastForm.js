@@ -7,7 +7,7 @@ import Button from "../common/Button";
 import FileInput from "../common/Input/FileInput";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { auth, db, storage } from "../../firebase";
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import { addDoc, collection} from "firebase/firestore";
 
 function CreatePodcastForm() {
   const [title, setTitle] = useState("");
@@ -15,8 +15,8 @@ function CreatePodcastForm() {
   const [displayImage, setDisplayImage] = useState("");
   const [bannerImage, setBannerImage] = useState("");
   const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  // const dispatch = useDispatch();
+  // const navigate = useNavigate();
   const handleSubmit = async () => {
     if (title && desc && displayImage && bannerImage) {
       // 1. Upload files -> get downloadable links (we need the image src, use fire store)
@@ -37,10 +37,10 @@ function CreatePodcastForm() {
           `podcasts/${auth.currentUser.uid}/${Date.now()}`
         );
         await uploadBytes(displayImageRef, displayImage);
-        const displayImageUrl = await getDownloadURL(bannerImageRef);
+        const displayImageUrl = await getDownloadURL(displayImageRef);
         console.log("displayImage Image", displayImageUrl);
 
-        const docRef = await addDoc(collection(db, 'podcasts'), { //random uid if not specified
+        await addDoc(collection(db, 'podcasts'), { //random uid if not specified
           title: title,
           description: desc,
           createdBy: auth.currentUser.uid,

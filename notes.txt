@@ -19,3 +19,5 @@ React-router-dom: route management
 React-Firebase-hooks: allow to get auth state and create private routes
 
 Create custome file input using input.style.display =none and providing a lable
+
+useParams => get u the route params

@@ -6,16 +6,19 @@ import { toast } from "react-toastify";
 import Header from "../components/common/Header";
 import Button from "../components/common/Button";
 import EpisodeDetails from "../components/common/Podcasts/EpisodDetails";
+import AudioPlayer from "../components/common/Podcasts/AudioPlayer";
 
 function PodcastDetails() {
   const { id } = useParams();
   const [podcast, setPodcast] = useState({});
   const [episodes, setEpisodes] = useState([])
+  const [playingFile, setPlayingFile] = useState("")
   const navigate = useNavigate();
   useEffect(() => {
     if (id) {
       getData();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
   const getData = async () => {
     try {
@@ -25,7 +28,6 @@ function PodcastDetails() {
         console.log("Document data: ", docSnap.data());
         setPodcast({ id: id, ...docSnap.data() });
       } else {
-        console.log("No such document");
         toast.error("No such document");
         navigate("/podcasts");
       }
@@ -44,6 +46,7 @@ function PodcastDetails() {
                 episodesData.push({id: doc.id, ...doc.data()})
             })
             setEpisodes(episodesData)
+            console.log("episodes", episodes)
         },
         (error)=>{
             console.error("Error Fetching Episodes:", error)
@@ -52,6 +55,7 @@ function PodcastDetails() {
     return ()=>{
         unsubscribe()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id])
 
   return (
@@ -89,13 +93,15 @@ function PodcastDetails() {
             {episodes.length > 0 ? (
                 <>
                 {episodes.map((episode, index)=>{
-                    return <EpisodeDetails key={index} index={index+1} title={episode.title} description={episode.description} audioFile={episode.audioFile} onClick={(file)=>console.log("Playing file"+ file)} />
+                    return <EpisodeDetails key={index} index={index+1} title={episode.title} description={episode.description} audioFile={episode.audioFile} onClick={(file)=>{setPlayingFile(file)}} />
                 })}
                 </>
             ) : (<><p>No Episodes</p></>)}
           </>
         )}
+
       </div>
+      {playingFile && <AudioPlayer audioSrc={playingFile} image={podcast.displayImage}/>}
     </>
   );
 }

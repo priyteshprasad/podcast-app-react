@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import InputComponent from "../common/Input";
 import Button from "../common/Button";
@@ -15,8 +13,6 @@ function CreatePodcastForm() {
   const [displayImage, setDisplayImage] = useState("");
   const [bannerImage, setBannerImage] = useState("");
   const [loading, setLoading] = useState(false);
-  // const dispatch = useDispatch();
-  // const navigate = useNavigate();
   const handleSubmit = async () => {
     if (title && desc && displayImage && bannerImage) {
       // 1. Upload files -> get downloadable links (we need the image src, use fire store)

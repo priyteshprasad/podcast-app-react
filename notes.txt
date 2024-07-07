@@ -21,3 +21,5 @@ React-Firebase-hooks: allow to get auth state and create private routes
 Create custome file input using input.style.display =none and providing a lable
 
 useParams => get u the route params
+
+useRef = allow to persist value between renders, set certern properties of my ref

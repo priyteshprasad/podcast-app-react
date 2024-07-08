@@ -2,8 +2,26 @@ import React, { useState } from 'react'
 import Header from '../components/common/Header'
 import SignupForm from '../components/SignUpComponents/SignupForm';
 import Login from '../components/SignUpComponents/LoginForm';
+import { useSelector } from 'react-redux';
 function SignUp() {
     const [flag, setFlag] = useState(false)
+
+    const currUser = useSelector((state) => state.user.user); //.user is name of slice .user is the object inside the slice
+  
+    if(currUser){
+      return (
+          <>
+          <div>
+        <Header />
+        <div className='input-wrapper'>
+
+              <h2>User already logged in</h2>
+              <p>User email: {currUser.email}</p>
+        </div>
+        </div>
+          </>
+      )
+  }
   return (
     <div>
         <Header />

@@ -16,6 +16,7 @@ import PodcastsPage from "./pages/Podcasts";
 import PodcastDetails from "./pages/PodcastDetails";
 import CreateAnEpisode from "./pages/CreateAnEpisode";
 function App() {
+  
   const dispatch = useDispatch();
   useEffect(() => {
     const unsubscribeAuth = onAuthStateChanged(auth, (user) => {

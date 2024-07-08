@@ -1,13 +1,18 @@
 import React, { useState } from "react";
 import InputComponent from "../../common/Input";
 import Button from "../../common/Button";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import {
+  fetchSignInMethodsForEmail,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import { auth, db } from "../../../firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../../slices/userSlice";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -47,6 +52,30 @@ function Login() {
       toast.error("something went wrong");
     }
   };
+  const handleResetPassword = async () => {
+    if (email) {
+      let signInMethods = await fetchSignInMethodsForEmail(auth, email);
+      // google recommend not to use it as an hacker can guess emails using it
+      console.log("signinmethods", signInMethods)
+      if (signInMethods.length > 0) {
+        //user exists
+        sendPasswordResetEmail(auth, email)
+        .then(() => {
+          toast.success("Email Send successfully");
+        })
+        .catch((error) => {
+          const errorMessage = error.message;
+          toast.error(errorMessage);
+        });
+      } else {
+         //user does not exist
+         toast.error("No User Found. Signup!");
+      }
+      
+    } else {
+      toast.error("please enter your email to get varification email");
+    }
+  };
   return (
     <>
       <InputComponent
@@ -69,6 +98,9 @@ function Login() {
         onClick={handleLogin}
         disabled={loading}
       />
+      <p onClick={handleResetPassword} style={{ cursor: "pointer" }}>
+        Forgot password? Click here
+      </p>
     </>
   );
 }

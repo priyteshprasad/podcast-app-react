@@ -4,7 +4,7 @@ import Button from '../../common/Button';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth, db} from '../../../firebase';
 import { doc, setDoc } from 'firebase/firestore';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '../../../slices/userSlice';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -18,6 +18,8 @@ function SignupForm() {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
 
+    const currUser = useSelector((state) => state.user.user); //.user is name of slice .user is the object inside the slice
+  
     const handleSignup = async () => {
         console.log("handling signup")
         setLoading(true)
@@ -58,6 +60,7 @@ function SignupForm() {
         }
         setLoading(false);
     }
+    
   return (
     <>
         <InputComponent 

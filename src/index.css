@@ -70,3 +70,7 @@ a{
 .podcast-title-heading{
 
 }
+.grid-container {
+  display: grid;
+  grid-template-columns: 400px auto;
+}

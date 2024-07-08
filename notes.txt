@@ -23,3 +23,6 @@ Create custome file input using input.style.display =none and providing a lable
 useParams => get u the route params
 
 useRef = allow to persist value between renders, set certern properties of my ref
+
+CI = false => this env variable in the netlify make the warnig to get ignored so that build not fail
+netlify.toml => so that links do not break, although not necessary, (without it some links/redirects may not work)

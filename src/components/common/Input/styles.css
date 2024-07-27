@@ -8,6 +8,16 @@
     width: 70vw;
     font-weight: 500;
     margin: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    p{
+        font-size: 20px;
+        margin: 0;
+        &:hover{
+            color: white;
+        }
+    }
 }
 .custom-input:focus{
     outline: none;

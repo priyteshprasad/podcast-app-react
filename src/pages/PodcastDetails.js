@@ -34,7 +34,7 @@ function PodcastDetails() {
       const docRef = doc(db, "podcasts", id);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
-        console.log("Document data: ", docSnap.data());
+        // console.log("Document data: ", docSnap.data());
         setPodcast({ id: id, ...docSnap.data() });
       } else {
         toast.error("No such document");
@@ -42,7 +42,6 @@ function PodcastDetails() {
       }
     } catch (error) {
       toast.error(error.message);
-      console.log(error.message);
     }
   };
 
@@ -55,7 +54,6 @@ function PodcastDetails() {
           episodesData.push({ id: doc.id, ...doc.data() });
         });
         setEpisodes(episodesData);
-        console.log("episodes", episodes);
       },
       (error) => {
         console.error("Error Fetching Episodes:", error);
@@ -92,13 +90,11 @@ function PodcastDetails() {
   };
 
   const handleDeletePodcast =() => {
-    const confirmDelete = window.confirm('Are you sure you want to delete the files?');
+    const confirmDelete = window.confirm('Are you sure you want to delete the posdcast and episode files?');
     if (confirmDelete) {
-      // Proceed with the delete operation
-      console.log("Deleting")
+      deletePodcast()
     } else {
-      // If the user clicks "Cancel", return without executing the deletion
-      console.log('Deletion canceled');
+      console.log("Thanks for canceling the delete")
     }
   }
 
@@ -114,6 +110,12 @@ function PodcastDetails() {
           toast.error("Could not delete " + error.message);
         });
     });
+    // delete banner and display image
+    const bannerRef = ref(storage, podcast.bannerImage)
+    await deleteObject(bannerRef).then(()=>{toast.success(`Banner image deleted`)}).catch(()=>{toast.error("Could not delete banner image")})
+    const displayImageRef = ref(storage, podcast.displayImage)
+    await deleteObject(displayImageRef).then(()=>{toast.success(`Display image deleted`)}).catch(()=>{toast.error("Could not delete display image")})
+
     // delete podcast object
     await deleteDoc(doc(db, "podcasts", podcast.id))
       .then(() => {

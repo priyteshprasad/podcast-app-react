@@ -11,7 +11,6 @@ import { clearUser } from "../slices/userSlice";
 function Profile() {
   const user = useSelector((state) => state.user.user); //.user is name of slice .user is the object inside the slice
   const dispatch = useDispatch()
-  console.log("userState,", user);
   const handleLogout = () => {
     signOut(auth)
       .then(() => {

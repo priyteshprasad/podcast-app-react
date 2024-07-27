@@ -21,14 +21,13 @@ function SignupForm() {
     const currUser = useSelector((state) => state.user.user); //.user is name of slice .user is the object inside the slice
   
     const handleSignup = async () => {
-        console.log("handling signup")
         setLoading(true)
         if(password.length > 6 && password === confirmPassword){
             try {
                 // creating user account
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                 const user = userCredential.user;
-                console.log("user", user);
+                // console.log("user", user);
 
                 // saving the user in database
                 // 'users' is the name of collection

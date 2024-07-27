@@ -21,7 +21,6 @@ function Login() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const handleLogin = async () => {
-    console.log("handling login");
     setLoading(true);
     if (email && password) {
       try {
@@ -33,7 +32,7 @@ function Login() {
         const user = userCredentials.user;
         const userDoc = await getDoc(doc(db, "users", user.uid));
         const userData = userDoc.data();
-        console.log("userdata", userData);
+        // console.log("userdata", userData);
         dispatch(
           setUser({
             name: userDoc.name,
@@ -56,7 +55,6 @@ function Login() {
     if (email) {
       let signInMethods = await fetchSignInMethodsForEmail(auth, email);
       // google recommend not to use it as an hacker can guess emails using it
-      console.log("signinmethods", signInMethods)
       if (signInMethods.length > 0) {
         //user exists
         sendPasswordResetEmail(auth, email)

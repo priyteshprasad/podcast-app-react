@@ -6,6 +6,7 @@ import FileInput from "../common/Input/FileInput";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { auth, db, storage } from "../../firebase";
 import { addDoc, collection} from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 
 function CreatePodcastForm() {
   const [title, setTitle] = useState("");
@@ -13,6 +14,7 @@ function CreatePodcastForm() {
   const [displayImage, setDisplayImage] = useState("");
   const [bannerImage, setBannerImage] = useState("");
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const handleSubmit = async () => {
     if (title && desc && displayImage && bannerImage) {
       // 1. Upload files -> get downloadable links (we need the image src, use fire store)
@@ -26,7 +28,7 @@ function CreatePodcastForm() {
         );
         await uploadBytes(bannerImageRef, bannerImage);
         const bannerImageUrl = await getDownloadURL(bannerImageRef);
-        console.log("banner Image", bannerImageUrl);
+        // console.log("banner Image", bannerImageUrl);
 
         const displayImageRef = ref(
           storage,
@@ -34,9 +36,9 @@ function CreatePodcastForm() {
         );
         await uploadBytes(displayImageRef, displayImage);
         const displayImageUrl = await getDownloadURL(displayImageRef);
-        console.log("displayImage Image", displayImageUrl);
+        // console.log("displayImage Image", displayImageUrl);
 
-        await addDoc(collection(db, 'podcasts'), { //random uid if not specified
+      const podcast =  await addDoc(collection(db, 'podcasts'), { //random uid if not specified
           title: title,
           description: desc,
           createdBy: auth.currentUser.uid,
@@ -49,6 +51,7 @@ function CreatePodcastForm() {
       setDisplayImage(null)
       setLoading(false)
       toast.success("File uploaded"); 
+      navigate(`/podcast/${podcast.id}`)
       } catch (error) {
         console.log(error)
         setLoading(false)

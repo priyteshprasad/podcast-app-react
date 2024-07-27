@@ -1,19 +1,22 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Header from "../components/common/Header";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
 import { toast } from "react-toastify";
 import Button from "../components/common/Button";
 import Loader from "../components/common/Loader";
+import { clearUser } from "../slices/userSlice";
 
 function Profile() {
   const user = useSelector((state) => state.user.user); //.user is name of slice .user is the object inside the slice
+  const dispatch = useDispatch()
   console.log("userState,", user);
   const handleLogout = () => {
     signOut(auth)
       .then(() => {
         toast.success("User Logged out!");
+        dispatch(clearUser())
       })
       .catch((error) => {
         toast.error(error.message);
